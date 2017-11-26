@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, CardBody, CardTitle, CardSubtitle, Button, ListGroup, ListGroupItem } from 'reactstrap';
+import { Card, CardBody, CardTitle, CardSubtitle, Button, ButtonGroup, Container, Row } from 'reactstrap';
 import { connect } from 'react-redux'
 import { loadAllCategories } from '../actions/CategoryAction';
 import { getAll } from '../apis/CategoriaApi';
@@ -7,7 +7,9 @@ import { getAll } from '../apis/CategoriaApi';
 class CategoryList extends Component {
 
     state = {
-        category: {},
+        category: {
+            items: []
+        },
     };
 
     componentDidMount() {
@@ -20,32 +22,36 @@ class CategoryList extends Component {
     };
 
     render() {
-        const { categories } = this.props;
-        console.log('MINHAS CATEGORIAS REDER: ', categories.items);
+        const { category } = this.props;
+
         return (
-            <div>
-                <Card>
-                    <CardBody>
-                        <CardTitle>Lista de Categorias</CardTitle>
-                        <CardSubtitle>Selecione a Categoria Desejavel</CardSubtitle>
+            <Container className="align-content-center">
+                <Row className="text-center">
+                    <div className="col-md-4 text-center"></div>
+                    <div className="col-md-4 text-center">
+                        <Card>
+                            <CardBody>
+                                <CardTitle>Lista de Categorias</CardTitle>
+                                <CardSubtitle>Selecione a Categoria Desejavel</CardSubtitle>
 
-                        <ListGroup style={{paddingTop : 20}}>
-                            { categories.items.map( (elementos) => (
-                                <ListGroupItem key={elementos.name} >{ elementos.name }</ListGroupItem>
-                            ))}
-                        </ListGroup>
-                    </CardBody>
-                </Card>
-
-            </div>
+                                <ButtonGroup size="lg" style={{paddingTop : 20}}>
+                                    { category.items !== undefined ? category.items.map( (elementos) => (
+                                        <Button key={elementos.name} >{ elementos.name }</Button>
+                                    )) : ''}
+                                </ButtonGroup>
+                            </CardBody>
+                        </Card>
+                    </div>
+                    <div className="col-md-4 text-center"></div>
+                </Row>
+            </Container>
         );
     }
 }
 
 const mapStateToProps = ({ category }) => {
-    console.log('mapStateToProps: ', category);
     return {
-        categories: category
+        category: category
     };
 };
 
